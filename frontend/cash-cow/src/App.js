@@ -1,18 +1,32 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      records: [],
+    };
+  }
+  componentDidMount() {
+    fetch('http://localhost:8000/records').then(response => response.json()).then(records => this.setState({records}))
+  }
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <h1>Cash 🐮</h1>
+        <table>
+          <thead>
+            <tr>
+              <th>Source</th>
+              <th>Target</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this.state.records.map((record, i) => <tr key={i}><td>{record.Source}</td><td>{record.Target}</td><td>{record.Amount}</td></tr>)}
+          </tbody>
+        </table>
       </div>
     );
   }
